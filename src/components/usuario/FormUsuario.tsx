@@ -80,7 +80,7 @@ export default function FormUsuario() {
                         />
                         {modo === 'entrar' && (
                             <button
-                                onClick={() => alert('Redirecting to password recovery')}
+                                onClick={() => alert('Funcionalidade em andamento')}
                                 className="text-zinc-300 text-sm hover:text-white mt-2 ml-auto"
                             >
                                 Esqueceu sua senha?
