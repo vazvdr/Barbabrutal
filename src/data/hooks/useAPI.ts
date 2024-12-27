@@ -1,24 +1,29 @@
 import { useCallback } from 'react'
 import useSessao from './useSessao'
 
-const URL_BASE = 'https://barbabrutal-backend-nest.vercel.app/'
+const URL_BASE = 'https://barbabrutal-backend-nest.vercel.app'
 
 export default function useAPI() {
     const { token } = useSessao()
 
     const httpGet = useCallback(
         async function (uri: string): Promise<any> {
-            const path = uri.startsWith('/') ? uri : `/${uri}`
-
-            const resp = await fetch(`${URL_BASE}${path}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-            return extrairDados(resp)
+            const path = uri.startsWith('/') ? uri : `/${uri}`;
+    
+            try {
+                const resp = await fetch(`${URL_BASE}${path}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                return await extrairDados(resp);
+            } catch (error) {
+                console.error(`Erro ao fazer GET em ${path}:`, error);
+                throw error;
+            }
         },
         [token]
-    )
+    );    
 
     const httpPost = useCallback(
         async function (uri: string, body: any): Promise<any> {
