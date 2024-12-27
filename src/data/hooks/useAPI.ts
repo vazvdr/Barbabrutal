@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import useSessao from './useSessao'
 
-const URL_BASE = 'http://localhost:3001'
+const URL_BASE = 'https://barbabrutal-backend-nest.vercel.app/'
 
 export default function useAPI() {
     const { token } = useSessao()
