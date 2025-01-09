@@ -13,6 +13,13 @@ export default function FormUsuario() {
     const [telefone, setTelefone] = useState('')
     const [senha, setSenha] = useState('')
 
+    const [erros, setErros] = useState({
+        nome: '',
+        email: '',
+        telefone: '',
+        senha: '',
+    })
+
     const { usuario, entrar, registrar } = useUsuario()
 
     const params = useSearchParams()
@@ -25,7 +32,28 @@ export default function FormUsuario() {
         }
     }, [usuario, router, params])
 
+    function validarFormulario() {
+        const novosErros = {
+            nome: '',
+            email: '',
+            telefone: '',
+            senha: '',
+        }
+
+        if (modo === 'cadastrar') {
+            if (!nome.trim()) novosErros.nome = 'O nome é obrigatório.'
+            if (!email.trim()) novosErros.email = 'O e-mail é obrigatório.'
+            if (!telefone.trim()) novosErros.telefone = 'O telefone é obrigatório.'
+            if (!senha.trim()) novosErros.senha = 'A senha é obrigatória.'
+        }
+
+        setErros(novosErros)
+        return !Object.values(novosErros).some((erro) => erro)
+    }
+
     async function submeter() {
+        if (!validarFormulario()) return
+
         if (modo === 'entrar') {
             await entrar({ email, senha })
         } else {
@@ -39,7 +67,20 @@ export default function FormUsuario() {
         setEmail('')
         setTelefone('')
         setSenha('')
+        setErros({ nome: '', email: '', telefone: '', senha: '' })
         setModo('entrar')
+    }
+
+    function redirecionarParaVerificacao() {
+        if (!email) {
+            setErros((prevErros) => ({
+                ...prevErros,
+                email: 'Por favor, insira o e-mail cadastrado.',
+            }))
+            return
+        }
+
+        alert("Funcionalidade em andamento")
     }
 
     return (
@@ -56,46 +97,60 @@ export default function FormUsuario() {
                 <div className="flex flex-col w-full max-w-md gap-5 px-4">
                     <div className="flex flex-col gap-4 rounded p-6">
                         {modo === 'cadastrar' && (
-                            <input
-                                type="text"
-                                value={nome}
-                                onChange={(e) => setNome(e.target.value)}
-                                placeholder="Nome"
-                                className="bg-zinc-900 px-4 py-2 rounded mb-4 w-full"
-                            />
+                            <div>
+                                <input
+                                    type="text"
+                                    value={nome}
+                                    onChange={(e) => setNome(e.target.value)}
+                                    placeholder="Nome"
+                                    className="bg-zinc-900 px-4 py-2 rounded mb-1 w-full"
+                                />
+                                {erros.nome && <p className="text-red-500 text-sm">{erros.nome}</p>}
+                            </div>
                         )}
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="E-mail"
-                            className="bg-zinc-900 px-4 py-2 rounded mb-4 w-full"
-                        />
-                        <input
-                            type="password"
-                            value={senha}
-                            onChange={(e) => setSenha(e.target.value)}
-                            placeholder="Senha"
-                            className="bg-zinc-900 px-4 py-2 rounded mb-4 w-full"
-                        />
+                        <div>
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="E-mail"
+                                className="bg-zinc-900 px-4 py-2 rounded mb-1 w-full"
+                            />
+                            {erros.email && <p className="text-red-500 text-sm">{erros.email}</p>}
+                        </div>
+                        <div>
+                            <input
+                                type="password"
+                                value={senha}
+                                onChange={(e) => setSenha(e.target.value)}
+                                placeholder="Senha"
+                                className="bg-zinc-900 px-4 py-2 rounded mb-1 w-full"
+                            />
+                            {erros.senha && <p className="text-red-500 text-sm">{erros.senha}</p>}
+                        </div>
                         {modo === 'entrar' && (
                             <button
-                                onClick={() => alert('Funcionalidade em andamento')}
+                                onClick={redirecionarParaVerificacao}
                                 className="text-zinc-300 text-sm hover:text-white mt-2 ml-auto"
                             >
                                 Esqueceu sua senha?
                             </button>
                         )}
                         {modo === 'cadastrar' && (
-                            <input
-                                type="tel"
-                                value={TelefoneUtils.formatar(telefone)}
-                                onChange={(s) =>
-                                    setTelefone(TelefoneUtils.desformatar(s.target.value))
-                                }
-                                placeholder="Telefone"
-                                className="bg-zinc-900 px-4 py-2 rounded mb-4 w-full"
-                            />
+                            <div>
+                                <input
+                                    type="tel"
+                                    value={TelefoneUtils.formatar(telefone)}
+                                    onChange={(s) =>
+                                        setTelefone(TelefoneUtils.desformatar(s.target.value))
+                                    }
+                                    placeholder="Telefone"
+                                    className="bg-zinc-900 px-4 py-2 rounded mb-1 w-full"
+                                />
+                                {erros.telefone && (
+                                    <p className="text-red-500 text-sm">{erros.telefone}</p>
+                                )}
+                            </div>
                         )}
                         <div className="flex gap-5 mt-4">
                             <button onClick={submeter} className="button bg-green-600 flex-1">
