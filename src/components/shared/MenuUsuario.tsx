@@ -42,9 +42,17 @@ export default function MenuUsuario(props: MenuUsuarioProps) {
                         Minha Agenda
                     </DropdownMenuItem>
                 ) : (
-                    <DropdownMenuItem onClick={() => router.push('/agendamentos')}>
-                        Meus Agendamentos
-                    </DropdownMenuItem>
+                    <><DropdownMenuItem onClick={() => router.push('/agendamentos')}>
+                            Meus Agendamentos
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => router.push('/alterar-dados')}>
+                                Alterar meus dados
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => router.push('/deletar-conta')}>
+                                Deletar minha conta
+                            </DropdownMenuItem>
+                            </>
+                            
                 )}
                 <DropdownMenuItem onClick={sair}>Sair</DropdownMenuItem>
             </DropdownMenuContent>
