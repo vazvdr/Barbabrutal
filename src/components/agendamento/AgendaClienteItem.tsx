@@ -1,5 +1,6 @@
 import { Agendamento, AgendaUtils, DataUtils } from '../../regras'
-import { IconCalendar, IconTrash } from '@tabler/icons-react'
+import { IconCalendar, IconEdit, IconTrash } from '@tabler/icons-react'
+import { useRouter } from 'next/navigation'
 
 export interface AgendaClienteItemProps {
     agendamento: Agendamento
@@ -8,6 +9,11 @@ export interface AgendaClienteItemProps {
 
 export default function AgendaClienteItem(props: AgendaClienteItemProps) {
     const { agendamento } = props
+    const router = useRouter()
+
+    const redirecionarParaAgendamento = () => {
+        router.push(`/agendamento?id=${agendamento.id}`)
+    }
 
     return (
         <div className="flex items-center gap-6 bg-zinc-800 rounded-md p-7">
@@ -26,8 +32,17 @@ export default function AgendaClienteItem(props: AgendaClienteItemProps) {
                     R$ {agendamento.servicos.reduce((acc, servico) => acc + servico.preco, 0)}
                 </span>
             </div>
-            <div>
-                <button className="button bg-red-500" onClick={() => props.cancelar(agendamento.id)}>
+            <div className="flex gap-2">
+                <button
+                    className="button bg-blue-500"
+                    onClick={redirecionarParaAgendamento}
+                >
+                    <IconEdit size={24} stroke={1.5} />
+                </button>
+                <button
+                    className="button bg-red-500"
+                    onClick={() => props.cancelar(agendamento.id)}
+                >
                     <IconTrash size={24} stroke={1.5} />
                 </button>
             </div>
