@@ -24,14 +24,7 @@ export default function AgendaClienteItem(props: AgendaClienteItemProps) {
                     {DataUtils.formatarDataEHora(new Date(agendamento.data))}
                 </span>
             </div>
-            <div className="flex flex-col items-center">
-                <span className="text-xl font-black">
-                    {AgendaUtils.duracaoTotal(agendamento.servicos)}
-                </span>
-                <span className="text-zinc-400">
-                    R$ {agendamento.servicos.reduce((acc, servico) => acc + servico.preco, 0)}
-                </span>
-            </div>
+
             <div className="flex-1 flex flex-col gap-1">
                 <span className="text-zinc-400 font-semibold">Serviços:</span>
                 <ul className="text-sm text-zinc-300 list-disc ml-5">
@@ -41,6 +34,14 @@ export default function AgendaClienteItem(props: AgendaClienteItemProps) {
                 </ul>
             </div>
             <div className="flex gap-2">
+                <div className="flex flex-col items-center">
+                    <span className="text-xl font-black">
+                        {AgendaUtils.duracaoTotal(agendamento.servicos)}
+                    </span>
+                    <span className="text-zinc-400">
+                        R$ {agendamento.servicos.reduce((acc, servico) => acc + servico.preco, 0)}
+                    </span>
+                </div>
                 <button
                     className="button bg-blue-500"
                     onClick={redirecionarParaAgendamento}
