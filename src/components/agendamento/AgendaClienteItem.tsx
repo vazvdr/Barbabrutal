@@ -13,7 +13,7 @@ export default function AgendaClienteItem(props: AgendaClienteItemProps) {
 
     const redirecionarParaEdicao = () => {
         // Redireciona o usuário para a página de edição do agendamento
-        router.push(`/agendamentos?id=${agendamento.id}`)
+        router.push(`/agendamentos/editar?id=${agendamento.id}`)
     }
 
     return (
