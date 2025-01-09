@@ -10,6 +10,8 @@ export interface ContextoUsuarioProps {
     usuario: Usuario | null
     entrar: (usuario: Partial<Usuario>) => Promise<void>
     registrar: (usuario: Usuario) => Promise<void>
+    alterar: (usuario: Usuario) => Promise<void>
+    excluir: (usuario: Usuario) => Promise<void>
     sair: () => void
 }
 
@@ -29,6 +31,14 @@ export function ProvedorUsuario({ children }: any) {
         await httpPost('/usuario/registrar', usuario)
     }
 
+    async function alterar(usuario: Usuario){
+        await httpPut('/usuario/alterar', usuario)
+    }
+
+    async function excluir(usuario: Usuario){
+        await httpDelete('/usuario/excluir', usuario)
+    }
+
     function sair() {
         limparSessao()
         router.push('/')
@@ -41,6 +51,8 @@ export function ProvedorUsuario({ children }: any) {
                 usuario,
                 entrar,
                 registrar,
+                alterar,
+                excluir,
                 sair,
             }}
         >
@@ -50,3 +62,11 @@ export function ProvedorUsuario({ children }: any) {
 }
 
 export default ContextoUsuario
+function httpPut(arg0: string, usuario: Usuario) {
+    throw new Error('Function not implemented.')
+}
+
+function httpDelete(arg0: string, usuario: Usuario) {
+    throw new Error('Function not implemented.')
+}
+
