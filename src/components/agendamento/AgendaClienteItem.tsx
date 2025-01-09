@@ -11,8 +11,9 @@ export default function AgendaClienteItem(props: AgendaClienteItemProps) {
     const { agendamento } = props
     const router = useRouter()
 
-    const redirecionarParaAgendamento = () => {
-        router.push(`/agendamento?id=${agendamento.id}`)
+    const redirecionarParaEdicao = () => {
+        // Redireciona o usuário para a página de edição do agendamento
+        router.push(`/agendamentos?id=${agendamento.id}`)
     }
 
     return (
@@ -44,7 +45,7 @@ export default function AgendaClienteItem(props: AgendaClienteItemProps) {
                 </div>
                 <button
                     className="button bg-blue-500"
-                    onClick={redirecionarParaAgendamento}
+                    onClick={redirecionarParaEdicao}
                 >
                     <IconEdit size={24} stroke={1.5} />
                 </button>
