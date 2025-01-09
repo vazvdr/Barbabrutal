@@ -32,6 +32,14 @@ export default function AgendaClienteItem(props: AgendaClienteItemProps) {
                     R$ {agendamento.servicos.reduce((acc, servico) => acc + servico.preco, 0)}
                 </span>
             </div>
+            <div className="flex-1 flex flex-col gap-1">
+                <span className="text-zinc-400 font-semibold">Serviços:</span>
+                <ul className="text-sm text-zinc-300 list-disc ml-5">
+                    {agendamento.servicos.map((servico, index) => (
+                        <li key={index}>{servico.nome}</li>
+                    ))}
+                </ul>
+            </div>
             <div className="flex gap-2">
                 <button
                     className="button bg-blue-500"
