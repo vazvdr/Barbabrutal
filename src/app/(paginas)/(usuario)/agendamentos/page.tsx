@@ -14,7 +14,7 @@ export default function PaginaAgendaCliente() {
             <div className="container flex flex-col gap-10 py-16">
                 <DiaInput data={data} dataMudou={alterarData} />
                 {agendamentos.length > 0 ? (
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-1">
                         {agendamentos.map((agendamento) => (
                             <AgendaClienteItem
                                 key={agendamento.id}

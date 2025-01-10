@@ -45,19 +45,42 @@ export default function Alterar() {
     }
 
     async function submeter() {
-        if (!validarFormulario()) return
-
+        if (!validarFormulario()) return;
+    
         try {
-            await alterar({
-                email, senha, telefone,
-                nome: '' // Aqui você pode omitir o campo nome ou manter, se necessário
-            })
-            alert('Dados atualizados com sucesso!')
-            router.push('/') // Redireciona para a página inicial após alteração bem-sucedida
-        } catch (error) {
-            alert('Erro ao atualizar dados. Tente novamente.')
+            const token = localStorage.getItem('token'); 
+    
+            if (!token) {
+                throw new Error('Token de autenticação não encontrado. Faça login novamente.');
+            }
+    
+            const response = await fetch('https://barbabrutal-backend-nest.vercel.app/alterar', {
+                method: 'PUT', // Alteração de dados
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`, // Inclui o token JWT
+                },
+                body: JSON.stringify({
+                    email,
+                    telefone,
+                    senha,
+                }),
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Erro ao atualizar os dados.');
+            }
+    
+            alert('Dados atualizados com sucesso!');
+            router.push('/'); // Redireciona para a página inicial após alteração bem-sucedida
+        } catch (error: any) {
+            console.error('Erro ao atualizar dados:', error.message);
+            alert(error.message || 'Erro ao atualizar dados. Tente novamente.');
         }
     }
+    
+        
 
     return (
         <div className="flex justify-center items-center h-screen relative">

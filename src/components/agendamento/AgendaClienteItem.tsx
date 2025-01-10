@@ -17,25 +17,31 @@ export default function AgendaClienteItem(props: AgendaClienteItemProps) {
     }
 
     return (
-        <div className="flex items-center gap-6 bg-zinc-800 rounded-md p-7">
+        <div className="flex flex-row md:flex-col items-start sm:items-center gap-6 bg-zinc-800 rounded-md p-7">
+            {/* Ícone de calendário */}
             <IconCalendar size={60} stroke={1} />
-            <div className="flex-1 flex flex-col">
-                <span className="text-xl">{agendamento.profissional.nome}</span>
-                <span className="text-zinc-400 text-sm">
-                    {DataUtils.formatarDataEHora(new Date(agendamento.data))}
-                </span>
+
+            {/* Linha 1: Nome do profissional e serviços */}
+            <div className="flex-1 flex flex-col sm:flex-row sm:justify-between gap-4">
+                <div className="flex flex-col">
+                    <span className="text-xl">{agendamento.profissional.nome}</span>
+                    <span className="text-zinc-400 text-sm">
+                        {DataUtils.formatarDataEHora(new Date(agendamento.data))}
+                    </span>
+                </div>
+                <div className="flex flex-col sm:items-end">
+                    <span className="text-zinc-400 font-semibold">Serviços:</span>
+                    <ul className="text-sm text-zinc-300 list-disc ml-5 sm:ml-0">
+                        {agendamento.servicos.map((servico, index) => (
+                            <li key={index}>{servico.nome}</li>
+                        ))}
+                    </ul>
+                </div>
             </div>
 
-            <div className="flex-1 flex flex-col gap-1">
-                <span className="text-zinc-400 font-semibold">Serviços:</span>
-                <ul className="text-sm text-zinc-300 list-disc ml-5">
-                    {agendamento.servicos.map((servico, index) => (
-                        <li key={index}>{servico.nome}</li>
-                    ))}
-                </ul>
-            </div>
-            <div className="flex gap-2">
-                <div className="flex flex-col items-center">
+            {/* Linha 2: Tempo, preço e botões */}
+            <div className="flex-1 flex flex-col sm:flex-row sm:justify-between items-center gap-4">
+                <div className="flex flex-col items-center sm:items-start">
                     <span className="text-xl font-black">
                         {AgendaUtils.duracaoTotal(agendamento.servicos)}
                     </span>
@@ -43,19 +49,22 @@ export default function AgendaClienteItem(props: AgendaClienteItemProps) {
                         R$ {agendamento.servicos.reduce((acc, servico) => acc + servico.preco, 0)}
                     </span>
                 </div>
-                <button
-                    className="button bg-blue-500"
-                    onClick={redirecionarParaEdicao}
-                >
-                    <IconEdit size={24} stroke={1.5} />
-                </button>
-                <button
-                    className="button bg-red-500"
-                    onClick={() => props.cancelar(agendamento.id)}
-                >
-                    <IconTrash size={24} stroke={1.5} />
-                </button>
+                <div className="flex gap-2">
+                    <button
+                        className="button bg-blue-500"
+                        onClick={redirecionarParaEdicao}
+                    >
+                        <IconEdit size={24} stroke={1.5} />
+                    </button>
+                    <button
+                        className="button bg-red-500"
+                        onClick={() => props.cancelar(agendamento.id)}
+                    >
+                        <IconTrash size={24} stroke={1.5} />
+                    </button>
+                </div>
             </div>
         </div>
+
     )
 }
