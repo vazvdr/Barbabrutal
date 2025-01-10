@@ -6,7 +6,7 @@ import useUsuario from '@/data/hooks/useUsuario'
 import Logo from '@/components/shared/Logo'
 import Image from 'next/image'
 
-export default function FormAlteracaoUsuario() {
+export default function Alterar() {
     const [email, setEmail] = useState<string>('') // Garantindo que o email seja uma string vazia
     const [telefone, setTelefone] = useState<string>('') // Garantindo que o telefone seja uma string vazia
     const [senha, setSenha] = useState<string>('') // Garantindo que a senha seja uma string vazia

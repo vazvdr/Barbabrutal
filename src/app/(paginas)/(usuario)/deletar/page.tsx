@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Logo from '@/components/shared/Logo'
 import Image from 'next/image'
 
-export default function ExcluirConta() {
+export default function Excluir() {
     const [confirmacao, setConfirmacao] = useState(false)
     const router = useRouter()
 

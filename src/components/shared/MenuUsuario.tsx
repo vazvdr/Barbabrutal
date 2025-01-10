@@ -50,10 +50,10 @@ export default function MenuUsuario(props: MenuUsuarioProps) {
                                 <DropdownMenuItem onClick={() => router.push('/agendamentos')}>
                                     Meus Agendamentos
                                 </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => router.push('/alterar-dados')}>
+                                <DropdownMenuItem onClick={() => router.push('/alterar')}>
                                     Alterar meus Dados
                                 </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => router.push('/deletar-conta')}>
+                                <DropdownMenuItem onClick={() => router.push('/excluir')}>
                                     Deletar minha Conta
                                 </DropdownMenuItem>
                             </>
