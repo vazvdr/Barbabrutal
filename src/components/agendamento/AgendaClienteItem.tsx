@@ -41,15 +41,13 @@ export default function AgendaClienteItem(props: AgendaClienteItemProps) {
 
             {/* Linha 2: Tempo, preço e botões */}
             <div className="flex-1 flex flex-col sm:flex-row sm:justify-between items-center gap-4">
-                <div className="flex flex-col items-center sm:items-start">
+                <div className="flex gap-2">
                     <span className="text-xl font-black">
                         {AgendaUtils.duracaoTotal(agendamento.servicos)}
                     </span>
                     <span className="text-zinc-400">
                         R$ {agendamento.servicos.reduce((acc, servico) => acc + servico.preco, 0)}
                     </span>
-                </div>
-                <div className="flex gap-2">
                     <button
                         className="button bg-blue-500"
                         onClick={redirecionarParaEdicao}
