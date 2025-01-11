@@ -17,37 +17,39 @@ export default function AgendaClienteItem(props: AgendaClienteItemProps) {
     }
 
     return (
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 bg-zinc-800 rounded-md p-7">
-            {/* Ícone de calendário */}
-            <IconCalendar size={60} stroke={1} />
-
-            {/* Linha 1: Nome do profissional e serviços */}
-            <div className="flex-1 flex flex-col sm:flex-row sm:justify-between gap-4">
-                <div className="flex flex-col">
+        <div className="flex flex-col sm:flex-row justify-between items-start gap-6 bg-zinc-800 rounded-md p-7 sm:p-10">
+            {/* Coluna 1: Nome do profissional e data */}
+            <div className="flex-1 flex flex-col justify-start items-start">
+                <IconCalendar size={60} stroke={1} className="mb-4 sm:mb-0" />
+                <div>
                     <span className="text-xl">{agendamento.profissional.nome}</span>
                     <span className="text-zinc-400 text-sm">
                         {DataUtils.formatarDataEHora(new Date(agendamento.data))}
                     </span>
                 </div>
-                <div className="flex flex-col sm:items-end">
-                    <span className="text-zinc-400 font-semibold">Serviços:</span>
-                    <ul className="text-sm text-zinc-300 list-disc ml-5 sm:ml-0">
-                        {agendamento.servicos.map((servico, index) => (
-                            <li key={index}>{servico.nome}</li>
-                        ))}
-                    </ul>
-                </div>
             </div>
 
-            {/* Linha 2: Tempo, preço e botões */}
-            <div className="flex-1 flex flex-col sm:flex-row sm:justify-between items-center gap-4">
-                <div className="flex gap-2">
+            {/* Coluna 2: Serviços */}
+            <div className="flex-1 flex flex-col justify-start items-start">
+                <span className="text-zinc-400 font-semibold">Serviços:</span>
+                <ul className="text-sm text-zinc-300 list-disc ml-5 sm:ml-0">
+                    {agendamento.servicos.map((servico, index) => (
+                        <li key={index}>{servico.nome}</li>
+                    ))}
+                </ul>
+            </div>
+
+            {/* Coluna 3: Tempo, preço e botões */}
+            <div className="flex-1 flex flex-col sm:items-end items-start">
+                <div className="flex flex-col items-start sm:items-end mb-4 sm:mb-0">
                     <span className="text-xl font-black">
                         {AgendaUtils.duracaoTotal(agendamento.servicos)}
                     </span>
                     <span className="text-zinc-400">
                         R$ {agendamento.servicos.reduce((acc, servico) => acc + servico.preco, 0)}
                     </span>
+                </div>
+                <div className="flex gap-2">
                     <button
                         className="button bg-blue-500"
                         onClick={redirecionarParaEdicao}
@@ -63,5 +65,7 @@ export default function AgendaClienteItem(props: AgendaClienteItemProps) {
                 </div>
             </div>
         </div>
+
+
     )
 }
