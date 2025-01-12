@@ -30,7 +30,7 @@ export default function AgendaClienteItem(props: AgendaClienteItemProps) {
             </div>
 
             {/* Coluna 2: Serviços */}
-            <div className="flex-1 flex flex-col items-start gap-2">
+            <div className="flex-1 flex flex-col ml-12 items-start gap-2">
                 <span className="text-zinc-400 font-semibold">Serviços:</span>
                 <ul className="text-sm text-zinc-300 list-disc ml-5 sm:ml-0">
                     {agendamento.servicos.map((servico, index) => (
