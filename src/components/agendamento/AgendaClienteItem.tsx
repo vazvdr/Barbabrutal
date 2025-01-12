@@ -22,7 +22,7 @@ export default function AgendaClienteItem(props: AgendaClienteItemProps) {
             <div className="flex-1 flex flex-col justify-start items-start">
                 <IconCalendar size={60} stroke={1} className="mb-4 sm:mb-0" />
                 <div>
-                    <div className="text-xl">{agendamento.profissional.nome}</div>
+                    <div className="text-xl">{agendamento.profissional.nome}</div><br/>
                     <div className="text-zinc-400 text-sm">
                         {DataUtils.formatarDataEHora(new Date(agendamento.data))}
                     </div>
