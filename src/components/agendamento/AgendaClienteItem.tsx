@@ -17,7 +17,7 @@ export default function AgendaClienteItem(props: AgendaClienteItemProps) {
     }
 
     return (
-        <div className="flex flex-col sm:flex-row justify-between items-start gap-6 bg-zinc-800 rounded-md p-5 sm:p-10 mx-4 sm:mx-0">
+        <div className="flex flex-col sm:flex-row justify-around items-start gap-6 bg-zinc-800 rounded-md p-5 sm:p-10 mx-4 sm:mx-0">
             {/* Coluna 1: Nome do profissional e data */}
             <div className="flex-1 flex flex-col mx-auto items-start gap-2">
                 <IconCalendar size={60} stroke={1} className="mb-4 sm:mb-0" />
