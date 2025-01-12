@@ -19,7 +19,7 @@ export default function AgendaClienteItem(props: AgendaClienteItemProps) {
     return (
         <div className="flex flex-col sm:flex-row justify-between items-start gap-6 bg-zinc-800 rounded-md p-5 sm:p-10 mx-4 sm:mx-0">
             {/* Coluna 1: Nome do profissional e data */}
-            <div className="flex-1 flex flex-col items-start gap-2">
+            <div className="flex-1 flex flex-col mx-auto items-start gap-2">
                 <IconCalendar size={60} stroke={1} className="mb-4 sm:mb-0" />
                 <div>
                     <div className="text-xl">{agendamento.profissional.nome}</div>
@@ -30,7 +30,7 @@ export default function AgendaClienteItem(props: AgendaClienteItemProps) {
             </div>
 
             {/* Coluna 2: Serviços */}
-            <div className="flex-1 flex flex-col ml-12 items-start gap-2">
+            <div className="flex-1 flex flex-col mx-auto items-start gap-2">
                 <span className="text-zinc-400 font-semibold">Serviços:</span>
                 <ul className="text-sm text-zinc-300 list-disc ml-5 sm:ml-0">
                     {agendamento.servicos.map((servico, index) => (
@@ -40,7 +40,7 @@ export default function AgendaClienteItem(props: AgendaClienteItemProps) {
             </div>
 
             {/* Coluna 3: Tempo, preço e botões */}
-            <div className="flex-1 flex flex-col items-start sm:items-end gap-2">
+            <div className="flex-1 flex flex-col mx-auto items-start sm:items-end gap-2">
                 <div className="flex flex-col items-start sm:items-end">
                     <span className="text-xl font-black">
                         {AgendaUtils.duracaoTotal(agendamento.servicos)}
