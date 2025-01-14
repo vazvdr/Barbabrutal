@@ -8,18 +8,7 @@ export default function Excluir() {
     const [confirmacao, setConfirmacao] = useState(false)
     const router = useRouter()
 
-    // Função para lidar com a exclusão da conta
-    const excluirConta = async () => {
-        // Aqui você pode chamar a função que vai excluir a conta do usuário
-        try {
-            // Supondo que você tenha uma função de exclusão de conta no seu hook ou contexto
-            // Excluir a conta do usuário
-            alert('Conta excluída com sucesso!')
-            router.push('/') // Redireciona para a página inicial após a exclusão
-        } catch (error) {
-            alert('Erro ao excluir a conta. Tente novamente.')
-        }
-    }
+    
 
     return (
         <div className="flex justify-center items-center h-screen relative">
@@ -43,7 +32,7 @@ export default function Excluir() {
                             </p>
                             <div className="flex gap-5 mt-4">
                                 <button
-                                    onClick={excluirConta}
+                                    
                                     className="button bg-red-600 text-white flex-1"
                                 >
                                     Excluir Conta

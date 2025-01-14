@@ -71,7 +71,7 @@ export default function FormUsuario() {
         setModo('entrar')
     }
 
-    function redirecionarParaVerificacao() {
+    function recuperarSenha() {
         if (!email) {
             setErros((prevErros) => ({
                 ...prevErros,
@@ -130,7 +130,7 @@ export default function FormUsuario() {
                         </div>
                         {modo === 'entrar' && (
                             <button
-                                onClick={redirecionarParaVerificacao}
+                                onClick={recuperarSenha}
                                 className="text-zinc-300 text-sm hover:text-white mt-2 ml-auto"
                             >
                                 Esqueceu sua senha?

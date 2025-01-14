@@ -1,31 +1,28 @@
 'use client'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { TelefoneUtils } from '@/regras'
+import useAPI from '@/data/hooks/useAPI'
 import useUsuario from '@/data/hooks/useUsuario'
 import Logo from '@/components/shared/Logo'
 import Image from 'next/image'
+import { TelefoneUtils } from '@/regras'
 
 export default function Alterar() {
-    const [email, setEmail] = useState<string>('') // Garantindo que o email seja uma string vazia
-    const [telefone, setTelefone] = useState<string>('') // Garantindo que o telefone seja uma string vazia
-    const [senha, setSenha] = useState<string>('') // Garantindo que a senha seja uma string vazia
-    const [erros, setErros] = useState({
-        email: '',
-        telefone: '',
-        senha: '',
-    })
+    const [email, setEmail] = useState<string>('')
+    const [telefone, setTelefone] = useState<string>('')
+    const [senha, setSenha] = useState<string>('')
+    const [erros, setErros] = useState({ email: '', telefone: '', senha: '' })
 
-    const { usuario, alterar } = useUsuario()
+    const { usuario } = useUsuario()
+    const { httpPut } = useAPI()
     const router = useRouter()
 
     useEffect(() => {
         if (usuario) {
-            // Garantindo que o valor de usuario.email e usuario.telefone seja atribuído corretamente
-            setEmail(usuario.email ?? '') // Caso usuario.email seja undefined, define como string vazia
-            setTelefone(usuario.telefone ?? '') // Caso usuario.telefone seja undefined, define como string vazia
+            setEmail(usuario.email ?? '')
+            setSenha(usuario.senha ?? '')
         } else {
-            router.push('/') // Se o usuário não estiver logado, redireciona para a página inicial
+            router.push('/')
         }
     }, [usuario, router])
 
@@ -45,38 +42,15 @@ export default function Alterar() {
     }
 
     async function submeter() {
-        if (!validarFormulario()) return;
-    
+        if (!validarFormulario()) return
+
         try {
-            const token = localStorage.getItem('token'); 
-    
-            if (!token) {
-                throw new Error('Token de autenticação não encontrado. Faça login novamente.');
-            }
-    
-            const response = await fetch('https://barbabrutal-backend-nest.vercel.app/alterar', {
-                method: 'PUT', // Alteração de dados
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`, // Inclui o token JWT
-                },
-                body: JSON.stringify({
-                    email,
-                    telefone,
-                    senha,
-                }),
-            });
-    
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Erro ao atualizar os dados.');
-            }
-    
-            alert('Dados atualizados com sucesso!');
-            router.push('/'); // Redireciona para a página inicial após alteração bem-sucedida
+            await httpPut('/alterar', { email, telefone, senha })
+            alert('Dados atualizados com sucesso!')
+            router.push('/')
         } catch (error: any) {
-            console.error('Erro ao atualizar dados:', error.message);
-            alert(error.message || 'Erro ao atualizar dados. Tente novamente.');
+            console.error('Erro ao atualizar dados:', error.message)
+            alert(error.message || 'Erro ao atualizar dados. Tente novamente.')
         }
     }
     

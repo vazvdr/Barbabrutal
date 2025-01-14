@@ -40,6 +40,14 @@ export default function useAPI() {
         },
         [token]
     )
+    async function httpPut(uri: string, body: any) { // Adicionando o método PUT
+        const response = await fetch(`${URL_BASE}${uri}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+        });
+        return response.json();
+    }
     const httpDelete = useCallback(
         async function (uri: string): Promise<any> {
             const path = uri.startsWith('/') ? uri : `/${uri}`
@@ -65,5 +73,5 @@ export default function useAPI() {
         }
     }
 
-    return { httpGet, httpPost, httpDelete }
+    return { httpGet, httpPost, httpPut, httpDelete }
 }

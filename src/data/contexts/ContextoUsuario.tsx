@@ -1,6 +1,6 @@
 'use client'
 import { useRouter } from 'next/navigation'
-import { createContext } from 'react'
+import { createContext, useContext } from 'react'
 import { Usuario } from '../../regras'
 import useSessao from '../hooks/useSessao'
 import useAPI from '../hooks/useAPI'
@@ -18,27 +18,42 @@ export interface ContextoUsuarioProps {
 const ContextoUsuario = createContext<ContextoUsuarioProps>({} as any)
 
 export function ProvedorUsuario({ children }: any) {
-    const { httpPost } = useAPI()
+    const { httpPost, httpPut, httpDelete } = useAPI()
     const { carregando, usuario, criarSessao, limparSessao } = useSessao()
     const router = useRouter()
 
+    // Função de login
     async function entrar(usuario: Partial<Usuario>) {
         const token = await httpPost('/usuario/login', usuario)
-        criarSessao(token)
+        criarSessao(token) // Armazena o token
     }
 
+    // Função de registrar
     async function registrar(usuario: Usuario) {
         await httpPost('/usuario/registrar', usuario)
     }
 
-    async function alterar(usuario: Usuario){
+    // Função de alterar dados do usuário
+    async function alterar(usuario: Usuario) {
+        const token = localStorage.getItem('token')
+        if (!token) {
+            throw new Error('Token de autenticação não encontrado. Faça login novamente.')
+        }
+
         await httpPut('/usuario/alterar', usuario)
     }
 
-    async function excluir(usuario: Usuario){
-        await httpDelete('/usuario/excluir', usuario)
+    // Função de excluir conta
+    async function excluir(usuario: Usuario) {
+        const token = localStorage.getItem('token') 
+        if (!token) {
+            throw new Error('Token de autenticação não encontrado. Faça login novamente.')
+        }
+
+        await httpDelete('/usuario/excluir') 
     }
 
+    // Função para sair da sessão
     function sair() {
         limparSessao()
         router.push('/')
@@ -62,11 +77,3 @@ export function ProvedorUsuario({ children }: any) {
 }
 
 export default ContextoUsuario
-function httpPut(arg0: string, usuario: Usuario) {
-    throw new Error('Function not implemented.')
-}
-
-function httpDelete(arg0: string, usuario: Usuario) {
-    throw new Error('Function not implemented.')
-}
-
