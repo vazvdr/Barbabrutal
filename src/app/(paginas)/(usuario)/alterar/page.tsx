@@ -45,7 +45,7 @@ export default function Alterar() {
         if (!validarFormulario()) return
 
         try {
-            await httpPut('/alterar', { email, telefone, senha })
+            await httpPut('/usuario/alterar', { email, telefone, senha })
             alert('Dados atualizados com sucesso!')
             router.push('/')
         } catch (error: any) {

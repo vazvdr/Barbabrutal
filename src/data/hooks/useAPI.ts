@@ -40,7 +40,7 @@ export default function useAPI() {
         },
         [token]
     )
-    async function httpPut(uri: string, body: any) { // Adicionando o método PUT
+    async function httpPut(uri: string, body: any) {
         const response = await fetch(`${URL_BASE}${uri}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
