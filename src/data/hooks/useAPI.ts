@@ -41,23 +41,24 @@ export default function useAPI() {
         [token]
     )
 
-    function httpPut(url: string, data: any, config?: RequestInit) {
-        return fetch(url, {
+    async function httpPut(url: string, data: any, config?: RequestInit): Promise<any> {
+        const response = await fetch(url, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,  // Garantindo que o token é passado no cabeçalho
+                Authorization: `Bearer ${token}`,  // Inclui o token no cabeçalho
                 ...(config?.headers || {}),
             },
             body: JSON.stringify(data),
             ...config,
-        }).then(response => {
-            if (!response.ok) {
-                throw new Error(`Erro: ${response.statusText}`);
-            }
-            return response.json();
         });
-    }
+    
+        if (!response.ok) {
+            throw new Error(`Erro: ${response.statusText}`);
+        }
+    
+        return await response.json();  // Espera a resposta como JSON
+    }    
 
     const httpDelete = useCallback(
         async function (uri: string): Promise<any> {
