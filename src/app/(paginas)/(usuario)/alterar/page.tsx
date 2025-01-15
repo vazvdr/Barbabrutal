@@ -43,18 +43,18 @@ export default function Alterar() {
 
     async function submeter() {
         if (!validarFormulario()) return
-        
-        const usuarioLogado = usuario?.id;
-    
+
         try {
-            await httpPut('/usuario/alterar', {email, telefone, senha, usuarioLogado })
+            await httpPut('/usuario/alterar', { email, telefone, senha })
             alert('Dados atualizados com sucesso!')
             router.push('/')
         } catch (error: any) {
             console.error('Erro ao atualizar dados:', error.message)
             alert(error.message || 'Erro ao atualizar dados. Tente novamente.')
         }
-    }        
+    }
+    
+        
 
     return (
         <div className="flex justify-center items-center h-screen relative">
