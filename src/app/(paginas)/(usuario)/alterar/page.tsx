@@ -17,14 +17,14 @@ export default function Alterar() {
     const router = useRouter()
 
     useEffect(() => {
-        if (usuario) {
-            setEmail(usuario.email ?? '')
-            setSenha('')
-            setTelefone(usuario.telefone ?? '')
+        if (!token || !usuario) {
+            router.push('/')
         } else {
-            router.push('/') // Redireciona se não houver usuário
+            setEmail(usuario.email ?? '')
+            setSenha(usuario.senha ?? '')
+            setTelefone(usuario.telefone ?? '')
         }
-    }, [usuario, router])
+    }, [usuario, token, router])    
 
     function validarFormulario() {
         const novosErros = {
@@ -43,17 +43,26 @@ export default function Alterar() {
 
     async function submeter() {
         if (!validarFormulario()) return
-
+    
         try {
-            await httpPut('/usuario/alterar', { email, telefone, senha });
-
+            await httpPut(
+                '/usuario/alterar', 
+                { email, telefone, senha },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                }
+            );    
             alert('Dados atualizados com sucesso!');
             router.push('/');
         } catch (error: any) {
             console.error('Erro ao atualizar dados:', error.response?.data || error.message);
             alert(error.response?.data?.message || 'Erro ao atualizar dados. Tente novamente.');
+            console.log(token)
         }
     }
+    
 
     return (
         <div className="flex justify-center items-center h-screen relative">
