@@ -40,23 +40,28 @@ export default function useAPI() {
         },
         [token]
     )
-    function httpPut(url: string, data: any, config?: RequestInit) {
-        return fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                ...(config?.headers || {}), 
-            },
-            body: JSON.stringify(data),
-            ...config,
-        }).then(response => {
-            if (!response.ok) {
-                throw new Error(`Erro: ${response.statusText}`)
+
+    const httpPut = useCallback(
+        async function (uri: string, data: any): Promise<any> {
+            const path = uri.startsWith('/') ? uri : `/${uri}`
+            try {
+                const resp = await fetch(`${URL_BASE}${path}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(data),
+                });
+                return await extrairDados(resp);
+            } catch (error) {
+                console.error(`Erro ao fazer PUT em ${path}:`, error);
+                throw error;
             }
-            return response.json()
-        })
-    }
-    
+        },
+        [token]
+    );
+
     const httpDelete = useCallback(
         async function (uri: string): Promise<any> {
             const path = uri.startsWith('/') ? uri : `/${uri}`
