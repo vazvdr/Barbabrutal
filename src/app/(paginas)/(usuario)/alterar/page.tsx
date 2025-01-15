@@ -19,7 +19,6 @@ export default function Alterar() {
     useEffect(() => {
         if (!token || !usuario) {
             console.log(token)
-            router.push('/')
         } else {
             setEmail(usuario.email ?? '')
             setSenha(usuario.senha ?? '')
