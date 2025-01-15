@@ -1,30 +1,28 @@
 'use client'
 import { useRouter } from 'next/navigation'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import useAPI from '@/data/hooks/useAPI'
 import useUsuario from '@/data/hooks/useUsuario'
 import Logo from '@/components/shared/Logo'
 import Image from 'next/image'
 import { TelefoneUtils } from '@/regras'
-import ContextoUsuario from '@/data/contexts/ContextoUsuario'
-const { usuario, token } = useContext(ContextoUsuario)
 
 export default function Alterar() {
     const [email, setEmail] = useState<string>('') 
     const [telefone, setTelefone] = useState<string>('') 
     const [senha, setSenha] = useState<string>('') 
     const [erros, setErros] = useState({ email: '', telefone: '', senha: '' }) 
-
-    const { usuario, token } = useUsuario() // Inclua o token do usuário aqui
+    const { usuario, token } = useUsuario() 
     const { httpPut } = useAPI() 
     const router = useRouter()
 
     useEffect(() => { 
         if (usuario) { 
             setEmail(usuario.email ?? '') 
-            setSenha(usuario.senha ?? '') 
+            setSenha('') 
+            setTelefone(usuario.telefone ?? '') 
         } else { 
-            router.push('/') 
+            router.push('/') // Redireciona se não houver usuário
         } 
     }, [usuario, router])
 
@@ -49,7 +47,7 @@ export default function Alterar() {
         try {
             await httpPut('/usuario/alterar', { email, telefone, senha }, {
                 headers: {
-                    Authorization: `Bearer ${token}` // Passe o token no cabeçalho da requisição
+                    Authorization: `Bearer ${token}` // Adiciona o token no cabeçalho
                 }
             })
             alert('Dados atualizados com sucesso!')
