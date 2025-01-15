@@ -55,6 +55,7 @@ export default function Alterar() {
         } catch (error: any) {
             console.error('Erro ao atualizar dados:', error.response?.data || error.message);
             alert(error.response?.data?.message || 'Erro ao atualizar dados. Tente novamente.');
+            console.log(token)
         }        
     }
 
