@@ -38,26 +38,31 @@ export default function Alterar() {
     }
 
     async function submeter() {
-        if (!validarFormulario()) return
+        if (!validarFormulario()) return;
     
         try {
+            // Exibe o token no console para depuração
+            console.log('Enviando requisição com o token:', token);
+    
+            // Faz a requisição PUT para alterar os dados do usuário
             await httpPut(
-                '/usuario/alterar', 
+                '/usuario/alterar',
                 { email, telefone, senha },
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
-                    }
+                        Authorization: `Bearer ${token}`, // Inclui o token no cabeçalho
+                    },
                 }
-            );    
+            );
+    
             alert('Dados atualizados com sucesso!');
-            router.push('/');
+            router.push('/'); // Redireciona para a página inicial
         } catch (error: any) {
             console.error('Erro ao atualizar dados:', error.response?.data || error.message);
             alert(error.response?.data?.message || 'Erro ao atualizar dados. Tente novamente.');
-            console.log(token)
         }
     }
+    
     
 
     return (
