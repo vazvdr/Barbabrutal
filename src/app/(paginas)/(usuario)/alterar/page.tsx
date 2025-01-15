@@ -47,15 +47,15 @@ export default function Alterar() {
         try {
             await httpPut('/usuario/alterar', { email, telefone, senha }, {
                 headers: {
-                    Authorization: `Bearer ${token}` // Adiciona o token no cabeçalho
+                    Authorization: `Bearer ${token}`
                 }
-            })
-            alert('Dados atualizados com sucesso!')
-            router.push('/')
+            });
+            alert('Dados atualizados com sucesso!');
+            router.push('/');
         } catch (error: any) {
-            console.error('Erro ao atualizar dados:', error.message)
-            alert(error.message || 'Erro ao atualizar dados. Tente novamente.')
-        }
+            console.error('Erro ao atualizar dados:', error.response?.data || error.message);
+            alert(error.response?.data?.message || 'Erro ao atualizar dados. Tente novamente.');
+        }        
     }
 
     return (
