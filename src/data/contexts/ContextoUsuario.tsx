@@ -1,6 +1,6 @@
 'use client'
 import { useRouter } from 'next/navigation'
-import { createContext, useContext } from 'react'
+import { createContext, useContext, useState } from 'react'
 import { Usuario } from '../../regras'
 import useSessao from '../hooks/useSessao'
 import useAPI from '../hooks/useAPI'
@@ -8,6 +8,7 @@ import useAPI from '../hooks/useAPI'
 export interface ContextoUsuarioProps {
     carregando: boolean
     usuario: Usuario | null
+    token: string | null // Adicione o token aqui
     entrar: (usuario: Partial<Usuario>) => Promise<void>
     registrar: (usuario: Usuario) => Promise<void>
     alterar: (usuario: Usuario) => Promise<void>
@@ -15,11 +16,13 @@ export interface ContextoUsuarioProps {
     sair: () => void
 }
 
+
 const ContextoUsuario = createContext<ContextoUsuarioProps>({} as any)
 
 export function ProvedorUsuario({ children }: any) {
     const { httpPost, httpPut, httpDelete } = useAPI()
     const { carregando, usuario, criarSessao, limparSessao } = useSessao()
+    const [token, setToken] = useState<string | null>(null)
     const router = useRouter()
 
     // Função de login
@@ -35,12 +38,15 @@ export function ProvedorUsuario({ children }: any) {
 
     // Função de alterar dados do usuário
     async function alterar(usuario: Usuario) {
-        const token = localStorage.getItem('token')
         if (!token) {
             throw new Error('Token de autenticação não encontrado. Faça login novamente.')
         }
 
-        await httpPut('/usuario/alterar', usuario)
+        await httpPut('/usuario/alterar', usuario, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
     }
 
     // Função de excluir conta
@@ -64,6 +70,7 @@ export function ProvedorUsuario({ children }: any) {
             value={{
                 carregando,
                 usuario,
+                token,
                 entrar,
                 registrar,
                 alterar,
