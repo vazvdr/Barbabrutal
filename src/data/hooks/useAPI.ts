@@ -9,7 +9,7 @@ export default function useAPI() {
     const httpGet = useCallback(
         async function (uri: string): Promise<any> {
             const path = uri.startsWith('/') ? uri : `/${uri}`;
-    
+
             try {
                 const resp = await fetch(`${URL_BASE}${path}`, {
                     headers: {
@@ -23,7 +23,7 @@ export default function useAPI() {
             }
         },
         [token]
-    );    
+    );
 
     const httpPost = useCallback(
         async function (uri: string, body: any): Promise<any> {
@@ -41,26 +41,23 @@ export default function useAPI() {
         [token]
     )
 
-    const httpPut = useCallback(
-        async function (uri: string, data: any): Promise<any> {
-            const path = uri.startsWith('/') ? uri : `/${uri}`
-            try {
-                const resp = await fetch(`${URL_BASE}${path}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                    body: JSON.stringify(data),
-                });
-                return await extrairDados(resp);
-            } catch (error) {
-                console.error(`Erro ao fazer PUT em ${path}:`, error);
-                throw error;
+    function httpPut(url: string, data: any, config?: RequestInit) {
+        return fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,  // Garantindo que o token é passado no cabeçalho
+                ...(config?.headers || {}),
+            },
+            body: JSON.stringify(data),
+            ...config,
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error(`Erro: ${response.statusText}`);
             }
-        },
-        [token]
-    );
+            return response.json();
+        });
+    }
 
     const httpDelete = useCallback(
         async function (uri: string): Promise<any> {

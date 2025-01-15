@@ -8,54 +8,51 @@ import Image from 'next/image'
 import { TelefoneUtils } from '@/regras'
 
 export default function Alterar() {
-    const [email, setEmail] = useState<string>('') 
-    const [telefone, setTelefone] = useState<string>('') 
-    const [senha, setSenha] = useState<string>('') 
-    const [erros, setErros] = useState({ email: '', telefone: '', senha: '' }) 
-    const { usuario, token } = useUsuario() 
-    const { httpPut } = useAPI() 
+    const [email, setEmail] = useState<string>('')
+    const [telefone, setTelefone] = useState<string>('')
+    const [senha, setSenha] = useState<string>('')
+    const [erros, setErros] = useState({ email: '', telefone: '', senha: '' })
+    const { usuario, token } = useUsuario()
+    const { httpPut } = useAPI()
     const router = useRouter()
 
-    useEffect(() => { 
-        if (usuario) { 
-            setEmail(usuario.email ?? '') 
-            setSenha('') 
-            setTelefone(usuario.telefone ?? '') 
-        } else { 
+    useEffect(() => {
+        if (usuario) {
+            setEmail(usuario.email ?? '')
+            setSenha('')
+            setTelefone(usuario.telefone ?? '')
+        } else {
             router.push('/') // Redireciona se não houver usuário
-        } 
+        }
     }, [usuario, router])
 
-    function validarFormulario() { 
-        const novosErros = { 
-            email: '', 
-            telefone: '', 
-            senha: '', 
+    function validarFormulario() {
+        const novosErros = {
+            email: '',
+            telefone: '',
+            senha: '',
         }
 
-        if (!email.trim()) novosErros.email = 'O e-mail é obrigatório.' 
-        if (!telefone.trim()) novosErros.telefone = 'O telefone é obrigatório.' 
-        if (!senha.trim()) novosErros.senha = 'A senha é obrigatória.' 
+        if (!email.trim()) novosErros.email = 'O e-mail é obrigatório.'
+        if (!telefone.trim()) novosErros.telefone = 'O telefone é obrigatório.'
+        if (!senha.trim()) novosErros.senha = 'A senha é obrigatória.'
 
-        setErros(novosErros) 
-        return !Object.values(novosErros).some((erro) => erro) 
+        setErros(novosErros)
+        return !Object.values(novosErros).some((erro) => erro)
     }
 
     async function submeter() {
         if (!validarFormulario()) return
-    
+
         try {
-            await httpPut('/usuario/alterar', { email, telefone, senha }, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            await httpPut('/usuario/alterar', { email, telefone, senha });
+
             alert('Dados atualizados com sucesso!');
             router.push('/');
         } catch (error: any) {
             console.error('Erro ao atualizar dados:', error.response?.data || error.message);
             alert(error.response?.data?.message || 'Erro ao atualizar dados. Tente novamente.');
-        }        
+        }
     }
 
     return (
