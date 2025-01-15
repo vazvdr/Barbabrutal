@@ -6,25 +6,21 @@ import useUsuario from '@/data/hooks/useUsuario'
 import Logo from '@/components/shared/Logo'
 import Image from 'next/image'
 import { TelefoneUtils } from '@/regras'
+import useSessao from '@/data/hooks/useSessao' // Hook para acessar o token da sessão
 
 export default function Alterar() {
     const [email, setEmail] = useState<string>('')
     const [telefone, setTelefone] = useState<string>('')
     const [senha, setSenha] = useState<string>('')
     const [erros, setErros] = useState({ email: '', telefone: '', senha: '' })
-    const { usuario, token } = useUsuario()
+    const { token } = useSessao() // Obtém o token da sessão
     const { httpPut } = useAPI()
     const router = useRouter()
 
+
     useEffect(() => {
-        if (!token || !usuario) {
-            console.log(token)
-        } else {
-            setEmail(usuario.email ?? '')
-            setSenha(usuario.senha ?? '')
-            setTelefone(usuario.telefone ?? '')
-        }
-    }, [usuario, token, router])    
+        console.log('Token do usuário:', token)
+    }, [token]) // O useEffect será executado sempre que o token mudar
 
     function validarFormulario() {
         const novosErros = {
