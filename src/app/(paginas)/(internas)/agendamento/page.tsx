@@ -8,7 +8,6 @@ import ProfissionalInput from '@/components/agendamento/ProfissionalInput'
 import Passos from '@/components/shared/Passos'
 import DataInput from '@/components/agendamento/DataInput'
 import Cabecalho from '@/components/shared/Cabecalho'
-import useSessao from '@/data/hooks/useSessao' // Hook para acessar o token da sessão
 
 export default function PaginaAgendamento() {
     const [permiteProximoPasso, setPermiteProximoPasso] = useState<boolean>(false)
@@ -21,12 +20,6 @@ export default function PaginaAgendamento() {
         selecionarData,
         quantidadeDeSlots,
     } = useAgendamento()
-
-    const { token } = useSessao() // Obtém o token da sessão
-
-    useEffect(() => {
-        console.log('Token do usuário:', token)
-    }, [token]) // O useEffect será executado sempre que o token mudar
 
     function profissionalMudou(profissional: Profissional) {
         selecionarProfissional(profissional)
