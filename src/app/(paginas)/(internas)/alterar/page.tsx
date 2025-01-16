@@ -32,23 +32,26 @@ export default function Alterar() {
     }
 
     async function submeter() {
-        if (!validarFormulario()) return;    
+        if (!validarFormulario()) return;
         try {
-               await httpPost('/usuario/alterar', {
+            const response = await httpPost('/usuario/alterar', {
                 email,
                 telefone,
                 senha,
                 headers: {
                     Authorization: `Bearer ${token}`, // Inclui o token nos cabeçalhos
                 },
-            });    
+            });
+    
             alert('Dados atualizados com sucesso!');
             router.push('/'); // Redireciona para a página inicial
         } catch (error: any) {
             console.error('Erro ao atualizar dados:', error.response?.data || error.message);
             alert(error.response?.data?.message || 'Erro ao atualizar dados. Tente novamente.');
         }
-    }    
+    }
+    
+    
 
     return (
         <div className="flex justify-center items-center h-screen relative">
