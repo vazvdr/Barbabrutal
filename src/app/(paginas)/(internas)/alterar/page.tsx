@@ -14,7 +14,7 @@ export default function Alterar() {
     const [senha, setSenha] = useState<string>('')
     const [erros, setErros] = useState({ email: '', telefone: '', senha: '' })
     const { token } = useSessao() // Obtém o token da sessão
-    const { httpPut } = useAPI()
+    const { httpPost } = useAPI()
     const router = useRouter()
 
 
@@ -41,19 +41,17 @@ export default function Alterar() {
         if (!validarFormulario()) return;
     
         try {
-            // Exibe o token no console para depuração
             console.log('Enviando requisição com o token:', token);
     
-            // Faz a requisição PUT para alterar os dados do usuário
-            await httpPut(
-                '/usuario/alterar',
-                { email, telefone, senha },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`, // Inclui o token no cabeçalho
-                    },
-                }
-            );
+            // Inclui os dados e os cabeçalhos no mesmo objeto
+            await httpPost('/usuario/alterar', {
+                email,
+                telefone,
+                senha,
+                headers: {
+                    Authorization: `Bearer ${token}`, // Inclui o token nos cabeçalhos
+                },
+            });
     
             alert('Dados atualizados com sucesso!');
             router.push('/'); // Redireciona para a página inicial
