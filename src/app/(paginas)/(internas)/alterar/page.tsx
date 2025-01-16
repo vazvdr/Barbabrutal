@@ -1,8 +1,7 @@
 'use client'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import useAPI from '@/data/hooks/useAPI'
-import useUsuario from '@/data/hooks/useUsuario'
 import Logo from '@/components/shared/Logo'
 import Image from 'next/image'
 import { TelefoneUtils } from '@/regras'
@@ -16,11 +15,6 @@ export default function Alterar() {
     const { token } = useSessao() // Obtém o token da sessão
     const { httpPost } = useAPI()
     const router = useRouter()
-
-
-    useEffect(() => {
-        console.log('Token do usuário:', token)
-    }, [token]) // O useEffect será executado sempre que o token mudar
 
     function validarFormulario() {
         const novosErros = {
@@ -38,30 +32,23 @@ export default function Alterar() {
     }
 
     async function submeter() {
-        if (!validarFormulario()) return;
-    
+        if (!validarFormulario()) return;    
         try {
-            console.log('Enviando requisição com o token:', token);
-    
-            // Inclui os dados e os cabeçalhos no mesmo objeto
-            await httpPost('/usuario/alterar', {
+               await httpPost('/usuario/alterar', {
                 email,
                 telefone,
                 senha,
                 headers: {
                     Authorization: `Bearer ${token}`, // Inclui o token nos cabeçalhos
                 },
-            });
-    
+            });    
             alert('Dados atualizados com sucesso!');
             router.push('/'); // Redireciona para a página inicial
         } catch (error: any) {
             console.error('Erro ao atualizar dados:', error.response?.data || error.message);
             alert(error.response?.data?.message || 'Erro ao atualizar dados. Tente novamente.');
         }
-    }
-    
-    
+    }    
 
     return (
         <div className="flex justify-center items-center h-screen relative">
